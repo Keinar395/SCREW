@@ -7,7 +7,7 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
     public float speed = 5f;
     public float gravity = -3f;
-    public float jumpHeight = 3000f;
+    public float jumpHeight = 1500f;
 
     void Start()
     {
