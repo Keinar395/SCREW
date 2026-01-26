@@ -6,24 +6,54 @@ public class Weapon : MonoBehaviour
     public GameObject bulletPrefab;     // Mermi Prefab'ı
     public Transform bulletSpawn;       // Merminin çıkacağı namlu ucu
     public float bulletVelocity = 30f;  // Mermi hızı
-    public float bulletPrefabLifeTime = 3f; // Merminin yok olma süresi
+    public float bulletPrefabLifeTime = 1f; // Merminin yok olma süresi
 
-    // InputManager'dan çağıracağımız ateş etme fonksiyonu
+    [Header("Animasyon")]
+    public Animator gunAnimator; 
+
+    [Header("Geri Tepme")]
+    public Recoil recoilScript; 
+
+    [Header("Efektler")]
+    // Burayı değiştirdim: Namlu ucu ateşi (Muzzle Flash) ile Patlama efekti karışmasın.
+    public GameObject muzzleFlash; // Buraya namlu ateşi efektini sürükle (Legacy Particle'dan küçük bir efekt seç)
+
     public void Fire()
     {
-        // 1. Mermiyi namlu ucunda (bulletSpawn) oluştur
+        // 1. NAMLU EFEKTİNİ OLUŞTUR (DÜZELTİLEN KISIM)
+        if (muzzleFlash != null)
+        {
+            // bulletSpawn yerine bulletSpawn.position yazdık (Konum)
+            // Quaternion.identity yerine bulletSpawn.rotation yazdık (Yön)
+            GameObject flash = Instantiate(muzzleFlash, bulletSpawn.position, bulletSpawn.rotation);
+            
+            // Efekti namlunun içine çocuk (child) yapalım ki silah geri teperken efekt havada asılı kalmasın, silahla gitsin.
+            flash.transform.parent = bulletSpawn; 
+            
+            // Efekt sonsuza kadar sahnede kalmasın, 0.5 saniye sonra yok et
+            Destroy(flash, 0.5f); 
+        }
+
+        // 2. Mermiyi oluştur
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
 
-        // 2. Mermiye hız ver (Rigidbody bileşeni olduğunu varsayıyoruz)
+        // 3. Animasyonu Tetikle
+        gunAnimator.SetTrigger("Shoot");
+
+        // 4. Geri Tepme
+        if (recoilScript != null)
+        {
+            recoilScript.RecoilFire();
+        }
+
+        // 5. Mermiye hız ver
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            // Namlunun baktığı yöne (forward) doğru fırlat
             rb.linearVelocity = bulletSpawn.forward * bulletVelocity; 
-            // NOT: Unity 6 öncesi bir sürüm kullanıyorsan 'rb.linearVelocity' yerine 'rb.velocity' yazmalısın.
         }
 
-        // 3. Belirli bir süre sonra mermiyi yok et (Performans için)
+        // 6. Mermiyi yok et
         Destroy(bullet, bulletPrefabLifeTime);
     }
 }
