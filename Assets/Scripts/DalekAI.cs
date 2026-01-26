@@ -4,9 +4,9 @@ public class DalekAI : MonoBehaviour
 {
     [Header("Ayarlar")]
     public Transform player; // Karakterini buraya sürükle
-    public float moveSpeed = 5f;
+    public float moveSpeed = 2.5f;
     public float detectionRange = 20f; // Seni ne kadar uzaktan görecek?
-    public float stoppingDistance = 2f; // İçine girmesin diye durma mesafesi
+    public float stoppingDistance = 5f; // İçine girmesin diye durma mesafesi
     public float turnSpeed = 5f;
 
     [Header("Süzülme Efekti")]

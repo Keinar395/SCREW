@@ -124,6 +124,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4058438220934929477, guid: 4554b43a720aa1446a10d0b57d72d6cd, type: 3}
   m_PrefabInstance: {fileID: 8215390997551077125}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &82583405 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1645684936246308379, guid: 4554b43a720aa1446a10d0b57d72d6cd, type: 3}
+  m_PrefabInstance: {fileID: 8215390997551077125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &82583406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,6 +908,18 @@ PrefabInstance:
     - target: {fileID: 767995413389421476, guid: 242ed461742ea384998a5d3753f67bdb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906816711465661615, guid: 242ed461742ea384998a5d3753f67bdb, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 82583405}
+    - target: {fileID: 5906816711465661615, guid: 242ed461742ea384998a5d3753f67bdb, type: 3}
+      propertyPath: moveSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906816711465661615, guid: 242ed461742ea384998a5d3753f67bdb, type: 3}
+      propertyPath: stoppingDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8420425625086340852, guid: 242ed461742ea384998a5d3753f67bdb, type: 3}
       propertyPath: explosionParticle
