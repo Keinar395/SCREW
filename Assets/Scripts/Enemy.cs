@@ -63,6 +63,11 @@ public class Enemy : MonoBehaviour
 
         Transform[] allParts = GetComponentsInChildren<Transform>();
 
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.EnemyDied();
+        }
+
         foreach (Transform part in allParts)
         {
             if (part == transform) continue; 
