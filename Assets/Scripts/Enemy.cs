@@ -15,6 +15,11 @@ public class Enemy : MonoBehaviour
     public float explosionForce = 500f; 
     public float explosionRadius = 5f;
 
+    [Header("Ses Efektleri")]
+    public AudioSource enemyAudioSource; // Düşmanın üzerindeki AudioSource
+    public AudioClip hurtSound;          // Can yanma sesi (Igh!)
+    public AudioClip deathSound;         // Ölme sesi (Vraaaaagh!)
+
     // Rendererları ve ORİJİNAL MATERYALLERİ saklayacağız
     private Renderer[] allRenderers;
     private Material[] originalMaterials;
@@ -26,6 +31,7 @@ public class Enemy : MonoBehaviour
         // Her renderer'ın orijinal materyalini kaydetmemiz lazım
         originalMaterials = new Material[allRenderers.Length];
 
+
         for (int i = 0; i < allRenderers.Length; i++)
         {
             originalMaterials[i] = allRenderers[i].material;
@@ -36,9 +42,13 @@ public class Enemy : MonoBehaviour
     {
         health -= damageAmount;
 
+        if (enemyAudioSource != null && hurtSound != null)
+        {
+            enemyAudioSource.PlayOneShot(hurtSound);
+        }
+
         if (health > 0)
         {
-            // Coroutine çakışmasını önle
             StopCoroutine(nameof(BlinkEffect)); 
             StartCoroutine(nameof(BlinkEffect));
         }
@@ -66,6 +76,12 @@ public class Enemy : MonoBehaviour
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.EnemyDied();
+        }
+
+        if (deathSound != null)
+        {
+            // (Ses Dosyası, Çalınacak Pozisyon, Ses Şiddeti)
+            AudioSource.PlayClipAtPoint(deathSound, transform.position, 1.0f);
         }
 
         foreach (Transform part in allParts)

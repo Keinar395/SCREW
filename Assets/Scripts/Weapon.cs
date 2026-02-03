@@ -18,6 +18,10 @@ public class Weapon : MonoBehaviour
     // Burayı değiştirdim: Namlu ucu ateşi (Muzzle Flash) ile Patlama efekti karışmasın.
     public GameObject muzzleFlash; // Buraya namlu ateşi efektini sürükle (Legacy Particle'dan küçük bir efekt seç)
 
+    [Header("Ses Efektleri")]
+    public AudioSource weaponAudioSource; // Silahın üzerindeki AudioSource bileşeni
+    public AudioClip fireSound;
+
     public void Fire()
     {
         // 1. NAMLU EFEKTİNİ OLUŞTUR (DÜZELTİLEN KISIM)
@@ -32,6 +36,13 @@ public class Weapon : MonoBehaviour
             
             // Efekt sonsuza kadar sahnede kalmasın, 0.5 saniye sonra yok et
             Destroy(flash, 0.5f); 
+        }
+
+        if (weaponAudioSource != null && fireSound != null)
+        {
+            // Volüme rastgelelik ekleyerek daha doğal duyulmasını sağlayabilirsin (Opsiyonel)
+            weaponAudioSource.pitch = Random.Range(0.9f, 1.1f); 
+            weaponAudioSource.PlayOneShot(fireSound);
         }
 
         // 2. Mermiyi oluştur

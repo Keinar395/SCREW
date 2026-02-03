@@ -57,11 +57,29 @@ public class LevelManager : MonoBehaviour
 
     void LoadNextLevel()
     {
-        Debug.Log("Tüm düşmanlar öldü! Sonraki seviye yükleniyor...");
-        
-        // Build Settings'deki sıraya göre bir sonraki sahneyi açar
-        // Örn: Level 1 (Index 1) -> Level 2 (Index 2)
+        // Şu anki sahne numarasını al (Örn: 2)
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex + 1);
+        
+        // Bir sonraki sahne numarasını hesapla (Örn: 3)
+        int nextSceneIndex = currentSceneIndex + 1;
+
+        // Kontrol Et: Listede böyle bir sahne var mı?
+        // SceneManager.sceneCountInBuildSettings = Toplam sahne sayısı
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            // Varsa sıradaki level'i yükle
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            // Yoksa (yani oyun bittiyse), Ana Menüye (Index 0) dön
+            Debug.Log("Oyun Bitti! Ana Menüye dönülüyor...");
+            SceneManager.LoadScene(0);
+
+            // --- KRİTİK KISIM: İMLECİ SERBEST BIRAK ---
+            // Bunu yapmazsan menüde mouse hareket etmez!
+            Cursor.lockState = CursorLockMode.None; // Kilidi aç
+            Cursor.visible = true; // Görünür yap
+        }
     }
 }
